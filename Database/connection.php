@@ -2,7 +2,7 @@
     $servername="localhost";
     $username="root";
     $password="";
-    $dbname="greenbasket";
+    $dbname="GreenBasket";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
