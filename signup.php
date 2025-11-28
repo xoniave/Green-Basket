@@ -66,29 +66,29 @@
 
                     <h1 id="signup" class="text-center mb-4">Sign Up</h1>
 
-                    <form>
+                    <form method="post" action="save.php">
 
                         <!-- FIRST NAME & LAST NAME -->
                         <div class="row g-3">
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="First Name">
+                                <input name="firstname" id="firstname" type="text" class="form-control" placeholder="First Name">
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="Last Name">
+                                <input name="lastname" id="lastname" type="text" class="form-control" placeholder="Last Name">
                             </div>
                         </div>
 
                         <!-- USERNAME -->
                         <div class="row g-3 mt-1">
                             <div class="col-12">
-                                <input type="text" class="form-control" placeholder="Username">
+                                <input name="username" id="username" type="text" class="form-control" placeholder="Username">
                             </div>
                         </div>
 
                         <!-- EMAIL -->
                         <div class="row g-3 mt-1">
                             <div class="col-12">
-                                <input type="email" class="form-control" placeholder="Email">
+                                <input name="email" id="email" type="email" class="form-control" placeholder="Email">
                             </div>
                         </div>
 
@@ -96,7 +96,7 @@
                         <div class="row g-3 mt-1">
                             <div class="col-12">
                                 <div class="input-group">
-                                    <input type="text" id="password" class="form-control" placeholder="Password">
+                                    <input name="password" id="password" type="text" class="form-control" placeholder="Password">
                                 </div>
                             </div>
                         </div>
@@ -116,16 +116,48 @@
                         <!-- BUTTON -->
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <a href="login.php" class="btn btn-light px-4">Create Account</a>
+                                <input name="button_create_account" type="submit" class="btn btn-light px-4" value="Create Account">
+                                  <input name="button_create_account" type="button" class="btn btn-light px-4" value="Create Account1" onclick="saveuser()">
                             </div>
                         </div>
-
                     </form>
 
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script language="javascript">
+
+        function saveuser() {
+            var fn       = $("#firstname").val(); 
+            var ln       = $("#lastname").val(); 
+            var un       = $("#username").val();
+            var email    = $("#email").val();
+            var ps       = $("#password").val(); 
+            var role     = "user";
+
+            // send ke ajax 
+            $.post("save_ajax.php", 
+                {
+                    firstname:      fn, 
+                    lastname:       ln, 
+                    username:       un,
+                    email:          email,
+                    password:       ps,
+                    role:           role
+                },
+                function(result) {      // result ini akan berisikan apa yang di echo oleh ajaxmu tadi 
+                    alert(result);      // cek isinya
+                    if(result == "sukses") {
+                        alert("Simpan Sukses"); 
+                        window.location = "login.php"; 
+                    }
+                }
+            )
+
+        }
+    </script>
 
 
     <!-- Bootstrap JS -->
