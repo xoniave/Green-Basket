@@ -70,13 +70,13 @@
             <div class="collapse navbar-collapse" id="navMenu">
                 
                 <div class="d-flex">
-                    <a href="#Basket.php">
+                    <a href="Basket.php">
                         <img src="BasketIcon.png" alt="Basket Icon" class="Navbar_icon">
                     </a>
-                    <a href="#">
+                    <a href="">
                         <img src="BoxIcon.png" alt="delivery Icon" class="Navbar_icon">
                     </a>
-                    <a href="#Home.php">
+                    <a href="Home.php">
                         <img src="HomeIcon.png" alt="Home Icon" class="Navbar_icon">
                     </a>
                 </div>
