@@ -2,8 +2,8 @@
 
     session_start();
 
-    include("connection.php");        // utk database 
-    include("../class/user.php");       // utk class user
+    include_once("connection.php");        // utk database 
+    include_once("../class/user.php");       // utk class user
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
