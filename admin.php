@@ -295,7 +295,8 @@ function getStatusDot($status) {
                                                 data-price="<?= htmlspecialchars($item['price']) ?>"
                                                 data-cat="<?= htmlspecialchars($item['category']) ?>"
                                                 data-desc="<?= htmlspecialchars($item['description']) ?>"
-                                                data-stock="<?= htmlspecialchars($item['stock']) ?>">
+                                                data-stock="<?= htmlspecialchars($item['stock']) ?>"
+                                                data-image="<?= htmlspecialchars($item['image']) ?? 'Gambar/default.jpg'?>">
                                             <i class="fas fa-pen"></i>
                                         </button>
                                     </td>
@@ -352,15 +353,17 @@ function getStatusDot($status) {
         <div class="modal-content p-4">
             
             <div class="product-img-box">
-                <img src="https://img.freepik.com/free-vector/hand-drawn-eggs-illustration_23-2149303734.jpg?w=200" width="100" style="opacity: 0.8;">
+                <img id="modalImagePreview" src="" width="100" style="opacity: 0.8;">
             </div>
 
-            <form id="editForm" method="POST">
-                <input type="text" id="modalSku" class="custom-input" placeholder="SKU">
-                <input type="text" id="modalCat" class="custom-input" placeholder="Kategori">
-                <input type="text" id="modalName" class="custom-input" placeholder="Nama">
-                <textarea id="modalDesc" class="custom-input" rows="3" placeholder="Deskripsi.." style="border-radius: 15px; resize: none;"></textarea>
-                <input type="text" id="modalPrice" class="custom-input" placeholder="Harga">
+            <!--  ini nyambung ke php database inventory karena ini modal untuk Inventory -->
+            <form id="editForm" method="POST" action="Database/Inventory.php" enctype="multipart/form-data"> 
+                <input type="text" id="modalSku" class="custom-input" placeholder="SKU" name = "sku">
+                <input type="text" id="modalCat" class="custom-input" placeholder="Kategori" name = "kategori">
+                <input type="text" id="modalName" class="custom-input" placeholder="Nama" name = "nama">
+                <textarea id="modalDesc" class="custom-input" rows="3" placeholder="Deskripsi.." style="border-radius: 15px; resize: none;" name = "description"></textarea>
+                <input type="text" id="modalPrice" class="custom-input" placeholder="Harga" name = "harga">
+                <input type="file" id="fileUpload" style="display: none;" accept="image/*" name="product_image">
 
                 <div class="stock-wrapper">
                     <span class="fw-bold text-secondary" style="font-size: 1.1rem;">Stock</span>
@@ -376,9 +379,7 @@ function getStatusDot($status) {
                     <button type="button" class="btn-file-upload shadow-sm">
                         File Upload <i class="fas fa-caret-down ms-1"></i>
                     </button>
-                    <button type="button" class="btn-update-custom shadow" data-bs-dismiss="modal">
-                        Update
-                    </button>
+                    <button type="submit" name="update_item" class="btn-update-custom shadow">Update</button>
                 </div>
             </form>
 
@@ -399,6 +400,7 @@ function getStatusDot($status) {
             const desc = $(this).data('desc');
             const price = $(this).data('price');
             const stock = $(this).data('stock');
+            let imagePath = $(this).data('image');
 
             $('#modalSku').val(sku);
             $('#modalName').val(name);
@@ -408,7 +410,8 @@ function getStatusDot($status) {
             
             $('#modalStock').val(stock);
             $('#displayStock').text(stock);
-
+            $('#modalImagePreview').attr('src', imagePath);
+            
             $('#editModal').modal('show');
         });
 
@@ -429,6 +432,29 @@ function getStatusDot($status) {
             $('#modalStock').val(val);
             $('#displayStock').text(val);
         }
+
+        $('.btn-file-upload').click(function(e) {
+            e.preventDefault(); 
+            $('#fileUpload').click(); 
+        });
+        
+
+        $('#fileUpload').change(function() {
+        const file = this.files[0]; // Mengambil file pertama yang dipilih
+        
+        if (file) {
+            // Objek FileReader memungkinkan aplikasi web membaca konten file secara asinkron
+            const reader = new FileReader(); 
+            
+            // Ketika FileReader selesai membaca file
+            reader.onload = function(e) {
+                // Mengubah atribut 'src' dari tag <img> di modal menjadi URL data file yang baru dipilih
+                $('#modalImagePreview').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(file); 
+        }
+    });
     });
 </script>
 

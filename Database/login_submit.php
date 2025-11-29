@@ -25,12 +25,10 @@
             }
             else if($role == "admin")
             {
+                header("location: ../admin.php");
+                exit();
+            }
 
-            }
-            else{
-                header("location: ../");   
-                exit(); 
-            }
         }
         else{
             header("location: ../Index.php?error=login_failed");
