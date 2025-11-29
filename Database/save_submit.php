@@ -1,6 +1,6 @@
 <?php 
-    include("connection.php");        // utk database 
-    include("../class/user.php");       // utk class user
+    include_once("connection.php");        // utk database 
+    include_once("../class/user.php");       // utk class user
 
     if(isset($_POST['button_create_account'])) {
         $username = $_POST['username']; 
