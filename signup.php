@@ -23,6 +23,18 @@
             icon.classList.add("bi-eye-slash");
         }
     }
+
+    function validateForm() {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm_password").value;
+
+        if (password !== confirmPassword) {
+            alert("Password dan Konfirmasi Password tidak sama!");
+            return false; // Mencegah form dikirim
+        }
+        return true; // Izinkan form dikirim
+    }
+
     </script>
 
     <style>
@@ -55,6 +67,19 @@
 </head>
 
 <body>
+
+    <!-- menerima eror dari sav submit kalau user ada -->
+    <?php
+    if (isset($_GET['error']) && $_GET['error'] == 'user_exists') {
+        echo '
+        <script>
+            alert("Pendaftaran gagal. Username yang Anda masukkan sudah digunakan.");
+            window.history.replaceState(null, null, "signup.php"); 
+        </script>
+        ';
+    }
+    ?>
+
     <div class="container" style="margin-top: 100px;">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6">
@@ -66,29 +91,29 @@
 
                     <h1 id="signup" class="text-center mb-4">Sign Up</h1>
 
-                    <form method="post" action="save_submit.php">
+                    <form method="post" action="Database/save_submit.php" onsubmit="return validateForm()">
 
                         <!-- FIRST NAME & LAST NAME -->
                         <div class="row g-3">
                             <div class="col-6">
-                                <input name="firstname" id="firstname" type="text" class="form-control" placeholder="First Name">
+                                <input name="firstname" id="firstname" type="text" class="form-control" placeholder="First Name" required>
                             </div>
                             <div class="col-6">
-                                <input name="lastname" id="lastname" type="text" class="form-control" placeholder="Last Name">
+                                <input name="lastname" id="lastname" type="text" class="form-control" placeholder="Last Name" required>
                             </div>
                         </div>
 
                         <!-- USERNAME -->
                         <div class="row g-3 mt-1">
                             <div class="col-12">
-                                <input name="username" id="username" type="text" class="form-control" placeholder="Username">
+                                <input name="username" id="username" type="text" class="form-control" placeholder="Username" required>
                             </div>
                         </div>
 
                         <!-- EMAIL -->
                         <div class="row g-3 mt-1">
                             <div class="col-12">
-                                <input name="email" id="email" type="email" class="form-control" placeholder="Email">
+                                <input name="email" id="email" type="email" class="form-control" placeholder="Email" required>
                             </div>
                         </div>
 
@@ -96,7 +121,7 @@
                         <div class="row g-3 mt-1">
                             <div class="col-12">
                                 <div class="input-group">
-                                    <input name="password" id="password" type="text" class="form-control" placeholder="Password">
+                                    <input name="password" id="password" type="text" class="form-control" placeholder="Password" required>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +130,7 @@
                         <div class="row g-3 mt-1">
                             <div class="col-12">
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password">
+                                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" required>
                                     <span class="input-group-text" onclick="togglePassword('confirm_password', this)">
                                         <i class="bi bi-eye-slash"></i>
                                     </span>

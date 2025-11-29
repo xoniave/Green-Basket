@@ -1,6 +1,6 @@
 <?php 
     include("connection.php");        // utk database 
-    include("class/user.php");       // utk class user
+    include("../class/user.php");       // utk class user
 
     if(isset($_POST['button_create_account'])) {
         $username = $_POST['username']; 
@@ -10,10 +10,17 @@
         $email    =$_POST['email']; 
         $role     = "user"; 
 
+
+        if (User::cekUserExist($conn, $username)) {
+            header("location: ../signup.php?error=user_exists"); 
+            exit(); 
+        }
+
+
         $user = new User($firstname, $lastname, $username, $password, $email,$role); 
         $user->save($conn); 
 
         // habis dari register pindah ke lgoin 
-        header("location: login.php"); 
+        header("location: ../Index.php"); 
     }
 ?>

@@ -24,5 +24,29 @@ class User{
         return true;
     }
 
+    public static function cekUserExist($conn,$username){
+        $data=$conn->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+        $data->execute([':username' => $username]);
+        $count = $data->fetchColumn();
+        return $count > 0;
+    }
+
+    public function loginAkun($conn){
+        $data=$conn->prepare("SELECT * FROM users WHERE username = ?");
+        $data->execute([$this->username]);
+
+        $user_data = $data-> fetch(PDO::FETCH_ASSOC);
+
+        if($user_data){
+        $hashed_password = $user_data['password'];
+        $role = $user_data['role'];
+        
+        // 2. Verifikasi password dengan hash
+        if(password_verify($this->password, $hashed_password)){
+            // Login berhasil, kembalikan role (yang diharapkan oleh login_submit.php)
+            return $role; 
+        }
+    }
+    }
 }
 ?>
