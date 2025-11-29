@@ -4,6 +4,14 @@
 // 1. HUBUNGKAN KE FILE KONEKSI KAMU
 require_once 'Database/connection.php';
 
+session_start(); // wajib paling atas
+
+// cek login
+if(!isset($_SESSION['logged']) || $_SESSION['logged'] !== true){
+    header("Location: Index.php");
+    exit();
+}
+
 // 2. LOGIKA HALAMAN
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 
@@ -141,7 +149,7 @@ function getStatusDot($status) {
             </nav>
         </div>
         <div class="pb-4">
-            <button class="btn logout-btn">Log Out</button>
+            <a href="Database/logout.php" class="btn logout-btn">Log Out</a>
         </div>
     </div>
 
@@ -149,19 +157,27 @@ function getStatusDot($status) {
         <div class="top-navbar d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
                 <button class="btn btn-link text-dark p-0"><i class="fas fa-bars fa-lg"></i></button>
-                <div class="bg-light rounded-pill px-3 py-2" style="width:300px">
-                    <input type="text" placeholder="Search..." class="border-0 bg-transparent w-100" style="outline:none">
-                </div>
+
+                
+                
             </div>
+
             <div class="d-flex align-items-center gap-3">
-                <div class="text-end d-none d-md-block">
-                    <div class="fw-bold">Selyn</div>
-                    <small class="text-muted">Admin</small>
+            <div class="text-end d-none d-md-block">
+                <div class="fw-bold">
+                    <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest' ?>
                 </div>
-                <div class="rounded-circle border border-success p-1">
-                    <i class="fas fa-user-circle fa-2x text-success"></i>
-                </div>
+                <small class="text-muted">
+                    <?= isset($_SESSION['role']) ? htmlspecialchars($_SESSION['role']) : 'Tidak login' ?>
+                </small>
             </div>
+
+
+            <div class="rounded-circle border border-success p-1">
+                <i class="fas fa-user-circle fa-2x text-success"></i>
+            </div>
+        </div>
+
         </div>
 
         <div class="container-fluid p-4">
@@ -238,7 +254,7 @@ function getStatusDot($status) {
                                     <th>ID</th>
                                     <th>Item ID</th> <th>TGL</th>
                                     <th>Status</th>
-                                    <th>PM</th>
+                                    <th>Payment</th>
                                     <th>Total</th>
                                     <th>Username</th>
                                     <th>Action</th>
@@ -259,8 +275,19 @@ function getStatusDot($status) {
                                     <td class="fw-bold text-secondary">Rp. <?= number_format($o['total'],0,',','.') ?></td>
                                     <td class="fw-bold text-primary"><?= htmlspecialchars($o['username']) ?></td>
                                     <td>
-                                        <button class="btn btn-link text-secondary p-0 me-2"><i class="fas fa-trash"></i></button>
-                                        <button class="btn btn-link text-secondary p-0"><i class="fas fa-pen"></i></button>
+                                        <form method="POST" action="Database/Order.php" style="display:inline;">
+                                            <input type="hidden" name="delete_order" value="1">
+                                            <input type="hidden" name="id" value="<?= htmlspecialchars($o['id']) ?>">
+                                            <button type="submit" class="btn btn-link text-secondary p-0 me-2"
+                                                onclick="return confirm('Yakin mau menghapus item ini?');">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        <button class="btn btn-link text-secondary p-0 btn-edit-order"
+                                                data-id="<?= htmlspecialchars($o['id']) ?>"
+                                                data-status="<?= htmlspecialchars($o['status']) ?>">
+                                                <i class="fas fa-pen"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -271,10 +298,14 @@ function getStatusDot($status) {
 
             <?php elseif ($page == 'inventory'): ?>
                 <div class="card-custom">
+
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h3 class="fw-bold">Inventory</h3>
-                        <select class="form-select w-auto rounded-pill bg-light border-0"><option>Kategori</option></select>
+                        <button class="btn btn-success rounded-pill px-4" id="btnAddItem">
+                            <i class="fas fa-plus me-2"></i> Add Item
+                        </button>
                     </div>
+
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead><tr><th>ID</th><th>SKU</th><th>Kategori</th><th>Nama</th><th>Harga</th><th>Stock</th><th>Action</th></tr></thead>
@@ -288,7 +319,14 @@ function getStatusDot($status) {
                                     <td class="fw-bold text-secondary">Rp. <?= number_format($item['price'],0,',','.') ?></td>
                                     <td class="fw-bold text-secondary"><?= htmlspecialchars($item['stock']) ?></td>
                                     <td>
-                                        <button class="btn btn-link text-secondary p-0 me-2"><i class="fas fa-trash"></i></button>
+                                        <form method="POST" action="Database/Inventory.php" style="display:inline;">
+                                            <input type="hidden" name="delete_item" value="1">
+                                            <input type="hidden" name="id" value="<?= htmlspecialchars($item['id']) ?>">
+                                            <button type="submit" class="btn btn-link text-secondary p-0 me-2"
+                                                onclick="return confirm('Yakin mau menghapus item ini?');">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                         <button class="btn btn-link text-secondary p-0 btn-edit" 
                                                 data-sku="<?= htmlspecialchars($item['sku']) ?>" 
                                                 data-name="<?= htmlspecialchars($item['name']) ?>" 
@@ -348,10 +386,13 @@ function getStatusDot($status) {
     </div>
 </div>
 
+<!-- EDIT MODAL + ADD-->
 <div class="modal fade" id="editModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-4">
             
+            <h5 id="modalTitle">Edit Item</h5>
+
             <div class="product-img-box">
                 <img id="modalImagePreview" src="" width="100" style="opacity: 0.8;">
             </div>
@@ -380,6 +421,36 @@ function getStatusDot($status) {
                         File Upload <i class="fas fa-caret-down ms-1"></i>
                     </button>
                     <button type="submit" name="update_item" class="btn-update-custom shadow">Update</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Edit ORder -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+            
+            <h5 id="orderModalTitle">Edit Order</h5>
+
+            <form id="orderForm" method="POST" action="Database/Order.php">
+                <div class="mb-3">
+                    <label for="orderId" class="form-label">ID Order</label>
+                    <input type="text" id="orderId" class="form-control" name="order_id" readonly>
+                </div>
+
+               <div class="mb-3">
+                    <label for="orderStatus" class="form-label">Status</label>
+                    <select id="orderStatus" class="form-select" name="status">
+                        <option value="Processing">Processing</option>
+                        <option value="Complete">Complete</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" name="update_order" class="btn btn-primary">Update</button>
                 </div>
             </form>
 
@@ -457,6 +528,46 @@ function getStatusDot($status) {
     });
     });
 </script>
+
+<script>
+    // Event untuk tombol Add Item
+    document.getElementById("btnAddItem").addEventListener("click", function () {
+        document.getElementById("modalTitle").innerText = "Tambah Item";
+        
+        // Kosongkan field
+        document.getElementById("modalSku").value = "";
+        document.getElementById("modalName").value = "";
+        document.getElementById("modalPrice").value = "";
+        document.getElementById("modalCat").value = "";
+        document.getElementById("modalDesc").value = "";
+        document.getElementById("modalStock").value = "";
+        document.getElementById("modalImagePreview").src = "Gambar/default.jpg";
+
+        // Ganti tombol save jadi "add"
+        document.getElementById("editForm").setAttribute("action", "Database/Inventory.php");
+        document.querySelector("#editForm button[type='submit']").name = "add_item";
+
+        // Munculkan modal
+        var addModal = new bootstrap.Modal(document.getElementById('editModal'));
+        addModal.show();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('.btn-edit-order').click(function() {
+        const id = $(this).data('id');
+        const status = $(this).data('status');
+
+        $('#orderId').val(id);
+        $('#orderStatus').val(status); // otomatis pilih option yang sama
+
+        var orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+        orderModal.show();
+    });
+});
+</script>
+
 
 </body>
 </html>
