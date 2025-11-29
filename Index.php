@@ -65,9 +65,21 @@
             </div>
 
             <div class="mt-2">
-                <form>
-                    <input type="text" class="form-control mb-3 input" id="username" placeholder="Username">
-                    <input type="password" class="form-control mb-3 input" id="password" placeholder="Password">
+                <form method="post" action="Database/login_submit.php">
+                    <input type="text" class="form-control mb-3 input" id="username" placeholder="Username" name = "username">
+                    <input type="password" class="form-control mb-3 input" id="password" placeholder="Password" name = "password">
+                
+                    <!-- BUTTON LOGIN + SIGNUP -->
+                    <div class="row mt-3">
+                        <div class="col-6 text-end">
+                            <button type = "submit" class="btn btn-light px-4">Login</button>
+                        </div>
+
+                        <div class="col-6 text-start">
+                            <a href="signup.php" class="btn btn-light px-4" name="button_login_account">Signup</a>
+                        </div>
+                    </div>
+                
                 </form>
 
                 <!-- FORGOT PASSWORD (Trigger Offcanvas) -->
@@ -80,16 +92,7 @@
                     </div>
                 </div>
 
-                <!-- BUTTON LOGIN + SIGNUP -->
-                <div class="row mt-3">
-                    <div class="col-6 text-end">
-                        <a href="Home.php" class="btn btn-light px-4">Login</a>
-                    </div>
-
-                    <div class="col-6 text-start">
-                        <a href="signup.php" class="btn btn-light px-4">Signup</a>
-                    </div>
-                </div>
+ 
             </div>
 
         </div>
