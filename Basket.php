@@ -13,6 +13,85 @@
             height: auto;
             margin: 8px;
         }   
+        .productCard {
+            background: #f3f3f3;
+            border-radius: 20px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .productImg {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin-right: 20px;
+        }
+
+        .productInfo {
+            flex-grow: 1;
+        }
+
+        .qtyBox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qtyBtn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background: #009944;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .numberDisplay {
+            width: 40px;
+            height: 35px;
+            background: #ddd;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footerBar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #009944;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .confirmBtn {
+            background: white;
+            color: #009944;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .deleteBtn{
+            background: red;
+            border: none;
+            border-color: solid;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -41,23 +120,49 @@
                 </div>
             </div>
 
-            <!-- search bar -->
-            <form class="d-flex mx-auto my-2 my-lg-0" role="search" style="width: 50%;">
-                <input id="search-input" class="form-control me-2 w-75" type="search" placeholder="Search" aria-label="Search"/>
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
             <!-- Profile icon -->
-            <a href="Profile.php" class="ms-lg-auto">
+            <a href="#Profile.php" class="ms-lg-auto">
                 <img src="Gambar/Profile.png" alt="Profile Icon" class="Navbar_icon">
-
             </a>
         </div>
     </nav>
+
+    <!-- Basket display: -->
+    <div style="margin: 30px;">
+        <div class="productCard" id="productContainer">
+        <!-- Cards akan ditampilkan di sini -->
+        <!-- INI BAKAL DIMASUKIN DI SCRIPT -->
+            <img src="BasketIcon.png" class="productImg">
+            <div class="productInfo">
+                <strong>0.00 Rp x 12 = 0.00 Rp</strong>
+            </div>
+            <div class="qtyBox">
+                <button class="deleteBtn">Delete</button>
+                <button class="qtyBtn">-</button>
+                <div class="numberDisplay">12</div>
+                <button class="qtyBtn">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer bar confirmation -->
+    <div class="footerBar d-flex align-items-center gap-3">
+        <select id="paymentMethod" class="form-select w-auto">
+            <option value="" selected>Pilih Payment</option>
+            <option value="COD">Cash On Delivery</option>
+            <option value="Transfer">Transfer Bank</option>
+            <option value="CreditCard">Kartu Kredit</option>
+            <option value="E-Wallet">E-Wallet</option>
+        </select>
+        <button class="confirmBtn">CheckOut</button>
+    </div>
 
     <!-- CND script Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <!-- Script Jquery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        
+    </script>
 </body>
 </html>
