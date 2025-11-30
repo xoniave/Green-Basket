@@ -31,13 +31,13 @@
 
         }
         else{
-            header("location: ../Index.php?error=login_failed");
+            header("location: ../login.php?error=login_failed");
             exit();
         }
 
     }
     else{
-        header("location: ../Index.php");
+        header("location: ../login.php");
         exit();
     }
 ?>

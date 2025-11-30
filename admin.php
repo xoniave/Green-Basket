@@ -295,6 +295,7 @@ function getStatusDot($status) {
                                         <td class="fw-bold"><?= htmlspecialchars($item['stock']) ?></td>
                                         <td>
                                             <button class="btn btn-link text-success p-0 btn-edit" 
+                                                    data-id="<?= htmlspecialchars($item['id']) ?>" 
                                                     data-sku="<?= htmlspecialchars($item['sku']) ?>" data-name="<?= htmlspecialchars($item['name']) ?>" 
                                                     data-price="<?= htmlspecialchars($item['price']) ?>" data-cat="<?= htmlspecialchars($item['category']) ?>" 
                                                     data-desc="<?= htmlspecialchars($item['description']) ?>" data-stock="<?= htmlspecialchars($item['stock']) ?>"
@@ -421,6 +422,7 @@ function getStatusDot($status) {
             <h5 id="modalTitle" class="fw-bold mb-3 text-center">Edit Item</h5>
             <div class="product-img-box"><img id="modalImagePreview" src="Gambar/default.jpg" style="opacity: 0.9;"></div>
             <form id="editForm" method="POST" action="Database/Inventory.php" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="modalId">
                 <input type="text" id="modalSku" class="custom-input" placeholder="SKU (Kode Barang)" name="sku" required>
                 <select id="modalCat" class="custom-input form-select" name="kategori" required>
                     <option value="" disabled selected>Pilih Kategori...</option>
@@ -482,6 +484,7 @@ function getStatusDot($status) {
             document.getElementById("editForm").setAttribute("action", "Database/Inventory.php");
             let btn = document.querySelector("#editForm button[type='submit']");
             btn.name = "update_item"; btn.innerText = "Update";
+            $('#modalId').val($(this).data('id'));
             $('#modalSku').val($(this).data('sku')).prop('readonly', true);
             $('#modalName').val($(this).data('name'));
             $('#modalCat').val($(this).data('cat'));
