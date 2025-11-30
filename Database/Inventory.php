@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['update_item'])) {
         
         // Ambil data yang dikirimkan (Pastikan nama input di admin.php sama)
-        $sku = $_POST['sku']; 
+        $id = $_POST['id'];
         $nama = $_POST['nama'];
         $kategori = $_POST['kategori'];
         $description = $_POST['description'];
@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':description' => $description,
                 ':harga' => $harga,
                 ':stock' => $stock,
-                ':sku' => $sku
+                ':id' => $id
             ];
 
             if ($image_path) {
@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $params[':image_path'] = $image_path;
             }
 
-            $sql = "UPDATE inventory SET " . $sql_set . " WHERE sku = :sku";
+            $sql = "UPDATE inventory SET " . $sql_set . " WHERE id = :id";
             $stmt = $conn->prepare($sql);
             
             $stmt->execute($params);

@@ -4,7 +4,7 @@ require_once 'connection.php';
 
 // Pastikan user login
 if (!isset($_SESSION['logged']) || $_SESSION['logged'] !== true) {
-    header("Location: ../Index.php?error=not_logged_in");
+    header("Location: ../login.php?error=not_logged_in");
     exit();
 }
 

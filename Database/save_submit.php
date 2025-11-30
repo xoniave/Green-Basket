@@ -21,6 +21,6 @@
         $user->save($conn); 
 
         // habis dari register pindah ke lgoin 
-        header("location: ../Index.php"); 
+        header("location: ../login.php"); 
     }
 ?>

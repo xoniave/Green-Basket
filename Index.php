@@ -1,126 +1,69 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Basket</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #008751;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Stack+Sans+Headline:wght@700&display=swap" rel="stylesheet">
+h1 {
+    font-size: 4rem;
+    letter-spacing: 0.5rem;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+h1 span {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 1s forwards;
+}
 
-    <style>
-        body {
-            background: url('Gambar/Login-Signup-Page-2.png') no-repeat center center fixed;
-            background-size: cover;
-        }
+h1 span:nth-child(1) { animation-delay: 0s; }
+h1 span:nth-child(2) { animation-delay: 0.1s; }
+h1 span:nth-child(3) { animation-delay: 0.2s; }
+h1 span:nth-child(4) { animation-delay: 0.3s; }
+h1 span:nth-child(5) { animation-delay: 0.4s; }
+h1 span:nth-child(6) { animation-delay: 0.5s; }
+h1 span:nth-child(7) { animation-delay: 0.6s; }
+h1 span:nth-child(8) { animation-delay: 0.7s; }
+h1 span:nth-child(9) { animation-delay: 0.8s; }
+h1 span:nth-child(10){ animation-delay: 0.9s; }
+h1 span:nth-child(11){ animation-delay: 1s; }
 
-        #greenbasket {
-            font-family: "Stack Sans Headline", sans-serif;
-            font-weight: 700;
-            font-size: 60px;
-        }
-
-        #welcome {
-            font-size: 30px;
-        }
-
-        .btn.btn-light {
-            font-family: "Open Sans", sans-serif;
-            font-weight: 600;
-            color: #007f42;
-        }
-
-        .form-control.mb-3 {
-            max-width: 530px;
-        }
-
-        .input {
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-        }
-
-        #konten {
-            margin-top: 100px;
-        }
-    </style>
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(20px); text-shadow: none; }
+    50% { opacity: 1; transform: translateY(-5px); text-shadow: 0 0 10px white; }
+    100% { opacity: 1; transform: translateY(0); text-shadow: 0 0 20px white; }
+}
+</style>
 </head>
-
 <body>
 
-    <div class="container-fluid d-flex justify-content-center" id="konten">
-        <div class="container text-center">
+<h1>
+    <span>G</span><span>R</span><span>E</span><span>E</span><span>N</span>
+    <span> </span>
+    <span>B</span><span>A</span><span>S</span><span>K</span><span>E</span><span>T</span>
+</h1>
 
-            <div class="row mt-5 align-items-center">
-                <div class="col-12 col-lg-5 text-lg-end text-center text-white">
-                    <h5 id="welcome">Welcome to</h5>
-                </div>
-
-                <div class="col-12 col-lg-7 text-lg-start text-center text-white">
-                    <h1 id="greenbasket"><b>Green Basket</b></h1>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <form method="post" action="Database/login_submit.php">
-                    <input type="text" class="form-control mb-3 input" id="username" placeholder="Username" name = "username">
-                    <input type="password" class="form-control mb-3 input" id="password" placeholder="Password" name = "password">
-                
-                    <!-- BUTTON LOGIN + SIGNUP -->
-                    <div class="row mt-3">
-                        <div class="col-6 text-end">
-                            <button type = "submit" class="btn btn-light px-4">Login</button>
-                        </div>
-
-                        <div class="col-6 text-start">
-                            <a href="signup.php" class="btn btn-light px-4" name="button_login_account">Signup</a>
-                        </div>
-                    </div>
-                
-                </form>
-
-                <!-- FORGOT PASSWORD (Trigger Offcanvas) -->
-                <div class="row mt-3">
-                    <div class="col-12 text-center">
-                        <a href="#" class="text-white"
-                           data-bs-toggle="offcanvas" data-bs-target="#forgotCanvas">
-                           Forgot Password?
-                        </a>
-                    </div>
-                </div>
-
- 
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- RIGHT SIDE PANEL - FORGOT PASSWORD -->
-    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="forgotCanvas"
-         style="background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); width: 350px;">
-
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title text-white">Reset Password</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-      </div>
-
-      <div class="offcanvas-body text-white">
-        <p>Enter your email to receive reset link:</p>
-
-        <input type="email" class="form-control mb-3" placeholder="Email">
-
-        <button class="btn btn-light w-100">Send Reset Link</button>
-      </div>
-
-    </div>
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+setTimeout(() => {
+    window.location.href = "login.php"; // redirect setelah animasi
+}, 2500); // 3 detik
+</script>
 
 </body>
 </html>
